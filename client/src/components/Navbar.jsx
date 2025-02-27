@@ -30,9 +30,10 @@ const Navbar = () => {
          gap-10 font-medium text-lg ease-in-out
           ${open ? "-right-0" :"-right-[100%]"}`}>
           <Link to="">Home</Link>
-        <Link to="">Trending</Link>
-        <Link to="">About</Link>
+        <Link to="">Fashion A I</Link>
+        <Link to="">Development</Link>
         <Link to="">forum</Link>
+        <Link to="">About</Link>
        
         <SignedOut>
         <Link to="/login" className='py-2 px-4 rounded-3xl bg-[#c4458f]'>
@@ -49,9 +50,11 @@ const Navbar = () => {
         {/* DESKTOP */}
         <div className='hidden md:flex text-[#0d1321] items-center gap-8 xl:gap-12 font-medium'>
         <Link to="">Home</Link>
-        <Link to="">Trending</Link>
-        <Link to="">About</Link>
+        <Link to="">Fashion A I</Link>
+        <Link to="">Development</Link>
         <Link to="">forum</Link>
+        <Link to="">About</Link>
+
        
         <SignedOut>
         <Link to="/login" className='py-2 px-4 rounded-3xl bg-[#c4458f]'>

@@ -9,7 +9,7 @@ const PostListItem = ({ post }) => {
       {/* image */}
       
         <div className="md:hidden xl:block xl:w-1/3">
-          <Image src='blog4.jfif' className="rounded-2xl object-cover" w="753" />
+          <Image src='blog4.jfif' className="rounded-2xl object-cover" w="753" h="500" />
         </div>
       {/* details */}
       <div className="flex flex-col gap-4 xl:w-2/3">

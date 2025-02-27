@@ -18,25 +18,25 @@ const MainCatergories = () => {
           to="/posts?cat=web-design"
           className="hover:bg-blue-50 rounded-full px-4 py-2"
         >
-          Web Design
+          Development
         </Link>
         <Link
           to="/posts?cat=development"
           className="hover:bg-blue-50 rounded-full px-4 py-2"
         >
-          Development
+          Materials
         </Link>
         <Link
           to="/posts?cat=databases"
           className="hover:bg-blue-50 rounded-full px-4 py-2"
         >
-          Databases
+          Female
         </Link>
         <Link
           to="/posts?cat=seo"
           className="hover:bg-blue-50 rounded-full px-4 py-2"
         >
-          Search Engines
+          Male
         </Link>
         <Link
           to="/posts?cat=marketing"
@@ -55,3 +55,4 @@ const MainCatergories = () => {
 }
 
 export default MainCatergories
+ 

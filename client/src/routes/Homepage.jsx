@@ -1,9 +1,12 @@
 import {Link}  from "react-router-dom"
+import { useState } from "react";
 import MainCatergories from "../components/MainCatergories"
 import Search from "../components/Search"
 import PostList from "../components/PostList"
 import FeaturedPost from "../components/FeaturedPost"
 const Homepage = () => {
+    const [open, setOpen] = useState(false);
+  
   return (
     <div  className="mt-5 flex flex-col gap-4">
       {/* BREADCRUMBS */}
@@ -44,7 +47,13 @@ const Homepage = () => {
       {/* catergories */}
       <MainCatergories/>
       <div className="md:hidden">
-      <Search/>
+      {/* <Search/> */}
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="bg-[#c4458f] text-sm text-white px-4 py-2  rounded-2xl mb-4 md:hidden"
+      >
+        {open ? "Close" : "Filter or Search"}
+      </button>
 
       </div>
       {/* FEATRURED POSTS */}

@@ -163,19 +163,19 @@ const SinglePostPage = () => {
         <div className="flex flex-col gap-2 text-sm">
           <Link className="underline">All</Link>
           <Link className="underline" to="/">
-            Web Design
+            Fashion Tech
           </Link>
           <Link className="underline" to="/">
             Development
           </Link>
           <Link className="underline" to="/">
-            Databases
+            Materials
           </Link>
           <Link className="underline" to="/">
-            Search Engines
+            Female
           </Link>
           <Link className="underline" to="/">
-            Marketing
+            Male
           </Link>
         </div>
         <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
