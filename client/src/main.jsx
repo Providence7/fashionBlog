@@ -12,6 +12,7 @@ import Register from "../src/routes/Register.jsx"
 import Homepage from "../src/routes/Homepage.jsx"
 import Mainlayout from './layout/Mainlayout.jsx'
 import  {ClerkProvider}  from "@clerk/clerk-react"
+import Habi from './routes/Habi.jsx'
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -53,6 +54,12 @@ const router = createBrowserRouter([
       path : "/post",
       element: <SinglePost />
     }
+    ,
+    {
+      path : "/habi",
+      element: <Habi />
+    }
+    // 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
     ,
     {
       path : "/write",

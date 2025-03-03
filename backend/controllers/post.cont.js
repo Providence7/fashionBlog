@@ -3,13 +3,9 @@ import posts from "../models/posts.model.js";
 
 
 //  getting all blog-posts
-export const getPosts  = async(req, res) =>{
-    try {
-        const post  = await posts.finds()
-        res.status(200).json(post)
-    } catch (error) {
-        res.error()
-    }
+export const getPosts  = async(req,res) =>{
+    const post  = await posts.find()
+    res.status(200).json(post)
 }
 
 //  getting all blog-post
