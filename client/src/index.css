@@ -11,13 +11,16 @@ body{
   overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
 }
-.animatedButon{
-  animation-duration: 1000ms;
+.animatedButton{
+  animation-duration: 10000ms;
 }
-.ql-cointainer{
+
+.ql-container{
   border: none !important;
-}.ql-toolbar{
+}
+.ql-toolbar{
   border: none !important;
-}.ql-editorr{
+}
+.ql-editor{
   border: none !important;
 }

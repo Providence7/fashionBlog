@@ -1,194 +1,122 @@
-  import React from 'react'
-import Image from '../components/Image'
-import { Link } from 'react-router-dom'
-import PostMenuActions from '../components/PostMenuActions'
-import Comments from '../components/Comments'
-import Comment from '../components/Comment'
+import { Link, useParams } from "react-router-dom";
+import Image from "../components/Image";
+//import PostMenuActions from "../components/PostMenuActions";
+import Search from "../components/Search";
+// import Comments from "../components/Comments";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { format } from "timeago.js";
+import { Twitter, Facebook, Instagram} from "lucide-react";
+
+const fetchPost = async (slug) => {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
+  return res.data;
+};
+const stripHtml = (html) => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+};
 
 const SinglePostPage = () => {
+  const { slug } = useParams();
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["post", slug],
+    queryFn: () => fetchPost(slug),
+  });
+
+  if (isPending) return "loading...";
+  if (error) return "Something went wrong!" + error.message;
+  if (!data) return "Post not found!";
+
   return (
-    <div className="flex flex-col mt-12 gap-8">
-    {/* detail */}
-    <div className="flex  flex-col md:flex-row gap-8">
-      <div className="lg:w-3/5 flex flex-col gap-8">
-        <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
-          Title of Fashion Tech Buisness
-        </h1>
-        <div className="hidden md:flex md:items-center md:gap-2
-         md:text-gray-400 md:text-sm">
-          <span>Written by</span>
-          <Link className="text-[#d6b7c9]">Olayemi Ease</Link>
-          <span>on</span>
-          <Link className="text-[#c4458f]">Fashion Tech</Link>
+    <div className="flex flex-col gap-8">
+      {/* detail */}
+      <div className="flex gap-8">
+        <div className="lg:w-3/5 flex flex-col gap-8">
+          <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
+            {data.title}
+          </h1>
+          <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <span>Written by</span>
+            <Link className="text-blue-800">CyberTailor</Link>
+            <span>on</span>
+            <Link className="text-blue-800">{data.category}</Link>
+            <span>{format(data.createdAt)}</span>
+          </div>
+          <p className="text-gray-500 font-medium">{data.desc}</p>
+        </div>
+        {data.img && (
+          <div className=" lg:block w-2/5">
+            <Image src={data.img} w="600" className="rounded-2xl" />
+          </div>
+        )}
+      </div>
+      {/* content */}
+      <div className="flex flex-col md:flex-row gap-12 justify-between">
+        {/* text */}
+        <div className="lg:text-lg flex flex-col gap-6 text-justify">
+          
+           {stripHtml(data.content)}
         
         </div>
-        <p className="text-gray-500 font-medium"> orem ipsum dolor sit amet consectetur adipisicing elit. Alias neque fugiat itaque quas esse sunt cupiditate possimus cumque asperiores, dolorem</p>
-      </div>
-      <div className="flex items-center gap-1 text-gray-400 text-sm md:hidden">
-          <span>Written by</span>
-          <Link className="text-[#c4458f]">Olayemi Ease</Link>
-          <div>
-        <Link className="text-[#c4458f]">Fashion Tech</Link>
-     
-        </div>
-        </div>
-       
-      {/* {data.img && ( */}
-        <div className=" w-full lg:block md:w-2/5">
-          <Image src="blog4.jfif"  className="rounded-2xl" />
-        </div>
-      {/* // )} */}
+        {/* menu */}
+        <div className="px-4 h-max sticky top-8">
+          <h1 className="mb-4 text-sm font-medium">Author</h1>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-8">
+              
+                <Image
+                  src="blog4.jfif"
+                  className="w-12 h-12 rounded-full object-cover"
+                  w="48"
+                  h="48"
+                />
+            
+              <Link className="text-blue-800">CyberTailor</Link>
+            </div>
+            <p className="text-sm text-gray-500">
+              Lorem ipsum dolor sit amet consectetur
+            </p>
+            <div className="flex space-x-4">
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        <Twitter className="w-6 h-6 text-blue-500 hover:text-blue-700" />
+      </a>
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+        <Facebook className="w-6 h-6 text-blue-700 hover:text-blue-900" />
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+        <Instagram className="w-6 h-6 text-pink-500 hover:text-pink-700" />
+      </a>
     </div>
-    {/* content */}
-    <div className="flex flex-col md:flex-row gap-12 justify-between">
-      {/* text */}
-      <div className="lg:text-lg flex flex-col gap-6 text-justify">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias neque
-          fugiat itaque quas esse sunt cupiditate possimus cumque asperiores,
-          dolorem, dolores eligendi amet perferendis illum repellat nam quam
-          facilis veritatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sint ipsa fuga nihil numquam, quam dicta quas
-          exercitationem aliquam maxime quaerat, enim autem culpa sequi at!
-          Earum facere in ducimus culpa. Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Libero fuga modi amet error aliquid
-          eos nobis vero soluta facilis, voluptatem, voluptates quod suscipit
-          obcaecati voluptate quaerat laborum, voluptatum dicta ipsum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias neque
-          fugiat itaque quas esse sunt cupiditate possimus cumque asperiores,
-          dolorem, dolores eligendi amet perferendis illum repellat nam quam
-          facilis veritatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sint ipsa fuga nihil numquam, quam dicta quas
-          exercitationem aliquam maxime quaerat, enim autem culpa sequi at!
-          Earum facere in ducimus culpa. Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Libero fuga modi amet error aliquid
-          eos nobis vero soluta facilis, voluptatem, voluptates quod suscipit
-          obcaecati voluptate quaerat laborum, voluptatum dicta ipsum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias neque
-          fugiat itaque quas esse sunt cupiditate possimus cumque asperiores,
-          dolorem, dolores eligendi amet perferendis illum repellat nam quam
-          facilis veritatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sint ipsa fuga nihil numquam, quam dicta quas
-          exercitationem aliquam maxime quaerat, enim autem culpa sequi at!
-          Earum facere in ducimus culpa. Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Libero fuga modi amet error aliquid
-          eos nobis vero soluta facilis, voluptatem, voluptates quod suscipit
-          obcaecati voluptate quaerat laborum, voluptatum dicta ipsum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias neque
-          fugiat itaque quas esse sunt cupiditate possimus cumque asperiores,
-          dolorem, dolores eligendi amet perferendis illum repellat nam quam
-          facilis veritatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sint ipsa fuga nihil numquam, quam dicta quas
-          exercitationem aliquam maxime quaerat, enim autem culpa sequi at!
-          Earum facere in ducimus culpa. Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Libero fuga modi amet error aliquid
-          eos nobis vero soluta facilis, voluptatem, voluptates quod suscipit
-          obcaecati voluptate quaerat laborum, voluptatum dicta ipsum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias neque
-          fugiat itaque quas esse sunt cupiditate possimus cumque asperiores,
-          dolorem, dolores eligendi amet perferendis illum repellat nam quam
-          facilis veritatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sint ipsa fuga nihil numquam, quam dicta quas
-          exercitationem aliquam maxime quaerat, enim autem culpa sequi at!
-          Earum facere in ducimus culpa. Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Libero fuga modi amet error aliquid
-          eos nobis vero soluta facilis, voluptatem, voluptates quod suscipit
-          obcaecati voluptate quaerat laborum, voluptatum dicta ipsum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias neque
-          fugiat itaque quas esse sunt cupiditate possimus cumque asperiores,
-          dolorem, dolores eligendi amet perferendis illum repellat nam quam
-          facilis veritatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sint ipsa fuga nihil numquam, quam dicta quas
-          exercitationem aliquam maxime quaerat, enim autem culpa sequi at!
-          Earum facere in ducimus culpa. Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Libero fuga modi amet error aliquid
-          eos nobis vero soluta facilis, voluptatem, voluptates quod suscipit
-          obcaecati voluptate quaerat laborum, voluptatum dicta ipsum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias neque
-          fugiat itaque quas esse sunt cupiditate possimus cumque asperiores,
-          dolorem, dolores eligendi amet perferendis illum repellat nam quam
-          facilis veritatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sint ipsa fuga nihil numquam, quam dicta quas
-          exercitationem aliquam maxime quaerat, enim autem culpa sequi at!
-          Earum facere in ducimus culpa. Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Libero fuga modi amet error aliquid
-          eos nobis vero soluta facilis, voluptatem, voluptates quod suscipit
-          obcaecati voluptate quaerat laborum, voluptatum dicta ipsum.
-        </p>
-      </div>
-      {/* menu */}
-      <div className="px-4 h-max sticky top-8">
-        <h1 className="mb-4 text-sm font-medium">Author</h1>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-8">
-            {/* {data.user.img && ( */}
-              <Image
-                src="blog1.png"
-                className="w-12 h-12 rounded-full object-cover"
-                w="48"
-                h="48"
-              />
-            {/* )} */}
-            <Link className="text-[#c4458f]">Olayemi Ease</Link>
           </div>
-          <p className="text-sm text-gray-500">
-            Lorem ipsum dolor sit amet consectetur
-          </p>
-          <div className="flex gap-2">
-            <Link> 
-              <Image src="icon1.svg" />
+          {/* <PostMenuActions post={data}/> */}
+          <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
+          <div className="flex flex-col gap-2 text-sm">
+            <Link className="underline">All</Link>
+            <Link className="underline" to="/">
+              Web Design
             </Link>
-            <Link>
-              <Image src="icon4.svg" />
+            <Link className="underline" to="/">
+              Development
             </Link>
-            <Link> 
-              <Image src="icons3.svg" />
+            <Link className="underline" to="/">
+              Databases
+            </Link>
+            <Link className="underline" to="/">
+              Search Engines
+            </Link>
+            <Link className="underline" to="/">
+              Marketing
             </Link>
           </div>
+          <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
+          <Search />
         </div>
-         <PostMenuActions />
-        <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
-        <div className="flex flex-col gap-2 text-sm">
-          <Link className="underline">All</Link>
-          <Link className="underline" to="/">
-            Fashion Tech
-          </Link>
-          <Link className="underline" to="/">
-            Development
-          </Link>
-          <Link className="underline" to="/">
-            Materials
-          </Link>
-          <Link className="underline" to="/">
-            Female
-          </Link>
-          <Link className="underline" to="/">
-            Male
-          </Link>
-        </div>
-        <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
-        {/* <Search /> */}
       </div>
+      {/* <Comments postId={data._id}/> */}
     </div>
-     <Comments/>
-     <Comment /> 
-     <Comment /> 
-     <Comment /> 
+  );
+};
 
-  </div>
-  )
-}
-
-export default SinglePostPage
+export default SinglePostPage;

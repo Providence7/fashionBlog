@@ -1,27 +1,65 @@
 import express from "express";
-import errorHandler from "./middleware/error.js";
-import dotenv from  "dotenv";
-import connectDb from "./lib/connnectDb.js";
-import getPost from "./routes/post.user.js";
-import clerkRouter from "./routes/webhook.route.js"
-import  {clerkMiddleware } from '@clerk/express'
-const app  = express();
-dotenv.config();
-app.use(clerkMiddleware)
-app.use("/webhooks",clerkRouter)
-// middleware
+import connectDB from "./lib/connnectDb.js";
+// import userRouter from "./routes/user.route.js";
+import postRouter from "./routes/post.route.js";
+// import commentRouter from "./routes/comment.route.js";
+// import webhookRouter from "./routes/webhook.route.js";
+// import { clerkMiddleware, requireAuth } from "@clerk/express";
+import cors from "cors";
+import dotenv from "dotenv"
+dotenv.config()
+const app = express();
+
+app.use(cors(process.env.CLIENT_URL));
+// app.use(clerkMiddleware());
+// app.use("/webhooks", webhookRouter);
 app.use(express.json());
 
-app.use('/post' ,getPost );
-const timestamp = 1740922734934;
-const date = new Date(timestamp);
-console.log(date.toUTCString()); // Outputs a readable date
-
-
-// connection
-const PORT = process.env.PORT || 5000
-app.listen(PORT, ()=>{
-    connectDb()
-    console.log("server running on port " + PORT)
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 });
-app.use(errorHandler)
+
+// app.get("/test",(req,res)=>{
+//   res.status(200).send("it works!")
+// })
+
+// app.get("/auth-state", (req, res) => {
+//   const authState = req.auth;
+//   res.json(authState);
+// });
+
+// app.get("/protect", (req, res) => {
+//   const {userId} = req.auth;
+//   if(!userId){
+//     return res.status(401).json("not authenticated")
+//   }
+//   res.status(200).json("content")
+// });
+
+// app.get("/protect2", requireAuth(), (req, res) => {
+//   res.status(200).json("content")
+// });
+
+// app.use("/users", userRouter);
+app.use("/posts", postRouter);
+// app.use("/comments", commentRouter);
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+
+  res.json({
+    message: error.message || "Something went wrong!",
+    status: error.status,
+    stack: error.stack,
+  });
+});
+
+app.listen(3000, () => {
+  connectDB();
+  console.log("Server is running!");
+});

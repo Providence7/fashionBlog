@@ -1,37 +1,32 @@
 import { Link } from "react-router-dom";
 import Image from "./Image";
-// import { format } from "timeago.js";
+import { format } from "timeago.js";
 
 const PostListItem = ({ post }) => {
 
   return (
     <div className="flex flex-col xl:flex-row gap-8 mb-12">
       {/* image */}
-      
+      {post.img && (
         <div className="md:hidden xl:block xl:w-1/3">
-          <Image src='blog4.jfif' className="rounded-2xl object-cover" w="753" h="500" />
+          <Image src={post.img} className="rounded-2xl object-cover" w="735" />
         </div>
+      )}
       {/* details */}
       <div className="flex flex-col gap-4 xl:w-2/3">
-        <Link to={`/`} className="text-4xl font-semibold">
-          Lorem Market for Vhildreb
+        <Link to={`/${post.slug}`} className="text-4xl font-semibold">
+          {post.title}
         </Link>
-        <div className="flex items-center gap-1 text-gray-400 text-xs">
-          <span>Written by </span>
-          <Link className="text-[#c4458f] text-xs" to="/">Olayemi Ease</Link>
-          <span>a week ago</span>
+        <div className="flex items-center gap-2 text-gray-400 text-sm">
+          <span>Written by</span>
+          <Link className="text-blue-800">CyberTailor</Link>
+          <span>on</span>
+          <Link className="text-blue-800">{post.category}</Link>
+          <span>{format(post.createdAt)}</span>
         </div>
-        {/* catergories */}
-        <div>
-          <Link className="text-[#c4458f] text-sm  " >FashionTech</Link>
-        </div>
-        <p>Lorem ipsum dolor sit, amet consectetur adipis-21wqsdaeficing elit.
-           Dolorem modi accusamus doloremque explicabo dolorum omnis 
-           voluptatem quam dicta, temporibus pariatur optio
-            eligendi ut facilis? Mollitia nemo hic iure dolor magni.</p>
-        <Link to='/post' className="underline text-[#c4458f] text-sm">
+        <p>{post.desc}</p>
+        <Link to={`/${post.slug}`} className="underline text-blue-800 text-sm">
           Read More
-          lorem
         </Link>
       </div>
     </div>

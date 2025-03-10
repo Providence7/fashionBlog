@@ -7,18 +7,24 @@ import PostListPage from "../src/routes/PostListPage.jsx"
 import SinglePost from "../src/routes/SinglePostPage.jsx"
 import About from "../src/routes/About.jsx"
 import Write from "../src/routes/Write.jsx"
-import Login from "../src/routes/Login.jsx"
-import Register from "../src/routes/Register.jsx"
+// import Login from "../src/routes/Login.jsx"
+// import Register from "../src/routes/Register.jsx"
 import Homepage from "../src/routes/Homepage.jsx"
 import Mainlayout from './layout/Mainlayout.jsx'
-import  {ClerkProvider}  from "@clerk/clerk-react"
-import Habi from './routes/Habi.jsx'
-// Import your Publishable Key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+// import  {ClerkProvider}  from "@clerk/clerk-react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
-}
+import Habi from './routes/Habi.jsx'
+const queryClient = new QueryClient();
+// Import your Publishable Key
+
+// const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+// if (!PUBLISHABLE_KEY) {
+//   throw new Error("Missing Publishable Key")
+// }
 
 
 
@@ -34,16 +40,16 @@ const router = createBrowserRouter([
       path : "/about",
       element: <About />
     }
-    ,
-    {
-      path : "/login",
-      element: <Login />
-    }
-    ,
-    {
-      path : "/register",
-      element: <Register />
-    }
+    // ,
+    // {
+    //   path : "/login",
+    //   element: <Login />
+    // }
+    // ,
+    // {
+    //   path : "/register",
+    //   element: <Register />
+    // }
     ,
     {
       path : "/posts",
@@ -51,9 +57,9 @@ const router = createBrowserRouter([
     }
     ,
     {
-      path : "/post",
+      path : "/:slug",
       element: <SinglePost />
-    }
+     }
     ,
     {
       path : "/habi",
@@ -71,9 +77,12 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-  <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-    <RouterProvider router={router} />
-</ClerkProvider>
+ {/* <ClerkProvider publishableKey={PUBLISHABLE_KEY}> */}
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ToastContainer position="bottom-right" />
+      </QueryClientProvider>
+    {/* </ClerkProvider> */}
 </StrictMode>
  
 )

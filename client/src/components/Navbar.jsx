@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { IKImage } from 'imagekitio-react';
 import { Link } from 'react-router-dom';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { Menu, X } from "lucide-react";
+// import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 const Navbar = () => {
     const [open , setOpen] = useState(false)
   return (
@@ -20,52 +21,51 @@ const Navbar = () => {
           </span>
           </div>
         </Link>
-        {/* MOBILE  */}
-        <div className='md:hidden'>
-            <div className='text-[#0d1321] cursor-pointer text-3xl font-bold'
-            onClick={()=>setOpen((prev) => !prev)}>
-                 {open ? "X" : "|||"}</div>
-                 <div className={`w-full h-screen flex flex-col items-center  justify-center absolute top-16
-         bg-[#cac7c7] transition-all
-         gap-10 font-medium text-lg ease-in-out
-          ${open ? "-right-0" :"-right-[100%]"}`}>
-          <Link to="">Home</Link>
-        <Link to="">Fashion A I</Link>
-        <Link to="">Development</Link>
-        <Link to="">forum</Link>
-        <Link to="">About</Link>
+            {/* MOBILE MENU */}
+            <div className="md:hidden">
+        {/* MOBILE BUTTON */}
        
-        <SignedOut>
-        <Link to="/login" className='py-2 px-4 rounded-3xl bg-[#c4458f]'>
-            <button>Login 👋 </button>
-        </Link>
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-        </div>
-        </div>
-        {/* mobile menu lists */}
-       
-        {/* DESKTOP */}
-        <div className='hidden md:flex text-[#0d1321] items-center gap-8 xl:gap-12 font-medium'>
-        <Link to="">Home</Link>
-        <Link to="">Fashion A I</Link>
-        <Link to="">Development</Link>
-        <Link to="">forum</Link>
-        <Link to="">About</Link>
+        {/* MOBILE LINK LIST */}
+        <button className="md:hidden text-[#0d1321]" onClick={() => setOpen(!open)}>
+        {open ? <X size={32} /> : <Menu size={32} />}
+      </button>
 
-       
-        <SignedOut>
-        <Link to="/login" className='py-2 px-4 rounded-3xl bg-[#c4458f]'>
-            <button>Login 👋 </button>
-        </Link>
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-
+      {/* Mobile Menu */}
+      {open && (
+        <div className="fixed inset-0 bg-[#cac7c7] flex flex-col items-center justify-center space-y-6 text-lg font-medium md:hidden z-50">
+          <button className="absolute top-6 right-6 text-[#0d1321]" onClick={() => setOpen(false)}>
+            <X size={32} />
+          </button>
+          <Link to="/" onClick={()=>setOpen(false)}>Home</Link>
+          <Link to="/posts?sort=trending" onClick={()=>setOpen(false)}>Trending</Link>
+          <Link to="/posts?sort=popular" onClick={()=>setOpen(false)}>Most Popular</Link>
+          <Link to="/" onClick={()=>setOpen(false)}>About</Link>
+          {/* <Link to="/login" onClick={()=>setOpen(false)}>
+            <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+              Login 👋
+            </button>
+          </Link> */}
         </div>
+      )}
+      </div>
+      {/* DESKTOP MENU */}
+      <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium">
+        <Link to="/">Home</Link>
+        <Link to="/posts?sort=trending">Trending</Link>
+        <Link to="/posts?sort=popular">Most Popular</Link>
+        <Link to="/">About</Link>
+        {/* <SignedOut>
+          <Link to="/login">
+            <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+              Login 👋
+            </button>
+          </Link>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn> */}
+      </div>
+
     </div>
   )
 }
