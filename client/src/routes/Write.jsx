@@ -2,6 +2,7 @@
 import "react-quill-new/dist/quill.snow.css";
 import ReactQuill from "react-quill-new";
 import { useMutation } from "@tanstack/react-query";
+import  "../index.css"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -116,13 +117,48 @@ const Write = () => {
               ▶️
             </Upload>
           </div>
+         
           <ReactQuill
-            theme="snow"
-            className="flex-1 rounded-xl bg-white shadow-md"
-            value={value}
-            onChange={setValue}
-            readOnly={0 < progress && progress < 100}
-          />
+  theme="snow"
+  className="flex-1 rounded-xl bg-white  shadow-md custom-quill"
+  value={value}
+  onChange={setValue}
+  readOnly={0 < progress && progress < 100}
+  modules={{
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["blockquote", "code-block"],
+      [{ align: [] }],
+      [{ color: [] }, { background: [] }],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+    clipboard: {
+      matchVisual: false, // 🔥 Forces Quill to respect line breaks
+    },
+  }}
+  formats={[
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "blockquote",
+    "code-block",
+    "align",
+    "color",
+    "background",
+    "link",
+    "image",
+    "video",
+  ]}
+/>
+
+
         </div>
         <button
           disabled={mutation.isPending || (0 < progress && progress < 100)}
