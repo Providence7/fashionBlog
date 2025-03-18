@@ -39,7 +39,7 @@ const SinglePostPage = () => {
           </h1>
           <div className="flex items-center gap-2 text-gray-400 text-sm">
             <span>Written by</span>
-            <Link className="text-blue-800">CyberTailor</Link>
+            <Link className="text-blue-900">CyberTailor</Link>
             <span>on</span>
             <Link className="text-blue-800">{data.category}</Link>
             <span>{format(data.createdAt)}</span>
@@ -55,11 +55,13 @@ const SinglePostPage = () => {
       {/* content */}
       <div className="flex flex-col md:flex-row gap-12 justify-between">
         {/* text */}
-        <div className="lg:text-lg flex flex-col gap-6 text-justify">
-          
-           {stripHtml(data.content)}
-        
-        </div>
+        <div className="flex flex-col md:flex-row gap-12 justify-between">
+  {/* text */}
+  <div
+    className="lg:text-lg flex flex-col gap-6 text-justify"
+    dangerouslySetInnerHTML={{ __html: data.content }}
+  />
+</div>
         {/* menu */}
         <div className="px-4 h-max sticky top-8">
           <h1 className="mb-4 text-sm font-medium">Author</h1>
